@@ -9,25 +9,60 @@ React 19 · Vite · TailwindCSS 4 · shadcn/ui (components in `apps/web/src/comp
 TanStack Query · React Hook Form · one Zod schema shared by client and server
 (`packages/shared`).
 
-## Run it locally
+---
 
+## 🚀 Live Demo
+
+* **Web Application:** [https://compassionate-sparkle-production-670a.up.railway.app](https://compassionate-sparkle-production-670a.up.railway.app)
+* **Backend API Health:** [https://high-advocacy-review-project-production.up.railway.app/api/health](https://high-advocacy-review-project-production.up.railway.app/api/health)
+* **Pre-seeded Dataset:** 20,000 realistic submissions + ~9,000 backfilled notifications.
+* **Authentication:** No password needed — single-click role switcher (**Reviewer** / **Viewer**). Public submission form available at `/submit`.
+
+> **Note on Free Tier:** The live demo is hosted on Railway's free plan. If the deployment is sleeping, offline, or exhausts trial limits, you can easily spin up the full project locally in under 2 minutes using Docker and the simple steps below.
+
+---
+
+## 💻 Running Locally (Quick & Easy)
+
+### Prerequisites
+* **Node.js** v20+
+* **Docker Desktop** (running, for MySQL 8.4)
+
+### 4 Simple Steps to Start:
+
+1. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+
+2. **Start MySQL database in Docker:**
+   ```bash
+   npm run db:up
+   ```
+   *(Starts MySQL 8.4 configured with `innodb_ft_min_token_size=2` for short token search like "G2").*
+
+3. **Run migrations and seed 20,000 submissions:**
+   ```bash
+   npm run db:migrate
+   npm run seed
+   ```
+
+4. **Start both Frontend and API:**
+   ```bash
+   npm run dev
+   ```
+   * Open **[http://localhost:5173](http://localhost:5173)** in your browser.
+   * Pick **Reviewer** or **Viewer** (no password required).
+   * Backend API runs at `http://localhost:4000`.
+   * Adminer database GUI is available at `http://localhost:8080` (Server: `mysql`, User: `root`, Password: `proofdesk`).
+
+### Running Automated Tests:
 ```bash
-npm install
-npm run db:up        # MySQL 8.4 in Docker (with innodb_ft_min_token_size=2)
-npm run db:migrate   # drizzle-kit migrations, incl. a custom FULLTEXT one
-npm run seed         # 20,000 fake submissions (+ ~9k backfilled notifications)
-npm run dev          # API on :4000, web on :5173
-# open http://localhost:5173 and pick Reviewer or Viewer — there is no password.
+npm test        # 41 Backend integration tests against isolated MySQL test database
+npm run test:web    # 5 Frontend selection state tests
 ```
 
-Tests: `npm test` (API: Vitest + Supertest against a real MySQL test database —
-`proof_desk_test` — created and migrated by a global setup hook) and
-`npm run test:web` (selection state-machine tests). Both need MySQL running
-(`npm run db:up`). Adminer is available at http://localhost:8080 if you want to
-inspect the data (server `mysql`, user `root`, password `proofdesk`).
-
-Env vars: see `apps/api/.env.example` — the defaults work out of the box with the
-compose file; copying it to `apps/api/.env` is optional.
+---
 
 ## 1. Data model, and the one decision I'm least sure about
 
