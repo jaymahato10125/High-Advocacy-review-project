@@ -28,26 +28,32 @@ TanStack Query · React Hook Form · one Zod schema shared by client and server
 * **Node.js** v20+
 * **Docker Desktop** (running, for MySQL 8.4)
 
-### 4 Simple Steps to Start:
+### 5 Simple Steps to Start:
 
 1. **Install dependencies:**
    ```bash
    npm install
    ```
 
-2. **Start MySQL database in Docker:**
+2. **Setup environment variables:**
+   ```bash
+   cp apps/api/.env.example apps/api/.env
+   ```
+   *(The default values work out of the box with the local Docker compose setup).*
+
+3. **Start MySQL database in Docker:**
    ```bash
    npm run db:up
    ```
    *(Starts MySQL 8.4 configured with `innodb_ft_min_token_size=2` for short token search like "G2").*
 
-3. **Run migrations and seed 20,000 submissions:**
+4. **Run migrations and seed 20,000 submissions:**
    ```bash
    npm run db:migrate
    npm run seed
    ```
 
-4. **Start both Frontend and API:**
+5. **Start both Frontend and API:**
    ```bash
    npm run dev
    ```
